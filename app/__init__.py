@@ -1,9 +1,13 @@
 from flask import Flask
 import settings
 from app.admin.views import admin_bp
-from exts import db, migrate
+from app.user.views import user_bp
+from app.debit.views import loan_bp
+from exts import migrate
 # models
 from app.user.models import User
+from app.blog.models import *
+from app.debit.models import *
 
 
 def create_app():
@@ -16,6 +20,8 @@ def create_app():
     # 数据库迁移
     migrate.init_app(app, db)
     # 注册蓝图
-    app.register_blueprint(admin_bp)
+    app.register_blueprint(admin_bp, url_prefix="/admin")
+    app.register_blueprint(user_bp, url_prefix="/user")
+    app.register_blueprint(loan_bp, url_prefix="/loan")
 
     return app
